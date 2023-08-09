@@ -8,7 +8,7 @@ using namespace std;
 Piece::Piece(){}
 Piece::~Piece(){}
 
-string Piece::getType(){
+int Piece::getType(){
     return type;
 }
 
@@ -16,10 +16,6 @@ void Piece::getPos(vector<int>& vector){
     for (int i =0; i < pos.size(); i++){
         vector[i] = pos[i];
     }
-}
-
-string Piece::getTexture(){
-    return texture;
 }
 
 void Piece::getMoves(vector<vector<int>>& vector){
@@ -35,14 +31,29 @@ bool Piece::getColor(){
 }
 
 Pawn::Pawn(vector<int> _pos, bool _color){
-    type = "Pawn";
+    type = 0;
     pos = _pos;
-    if (color){
-        texture = "sprites/blackpawn.png";
-    }else{
-        texture = "sprites/pawn.png";
-    }
     moves = {{0,1}, {0,2}};
     color = _color;
 };
 
+Knight::Knight(vector<int> _pos, bool _color){
+    type = 1;
+    pos = _pos;
+    moves = {{}};
+    color = _color;
+}
+
+Rook::Rook(vector<int> _pos, bool _color){
+    type = 2;
+    pos = _pos;
+    moves = {{}};
+    color = _color;
+}
+
+Bishop::Bishop(vector<int> _pos, bool _color){
+    type = 3;
+    pos = _pos;
+    moves = {{}};
+    color = _color;
+}

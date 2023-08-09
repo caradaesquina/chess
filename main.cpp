@@ -5,6 +5,7 @@
 #include "square.h"
 #include "piece.h"
 
+
 #define BROWN sf::Color(196,164,132)
 #define WHITE sf::Color(200,200,200)
 
@@ -84,13 +85,65 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
         Pawn pawn({i,1} ,true);
         piecesVector.push_back(pawn);
     }
+    Knight wKnight1({1,7},false);
+    Knight wKnight2({6,7},false);
+    Knight bKnight1({1,0},true);
+    Knight bKnight2({6,0},true);
+    Rook wRook1({0,7},false);
+    Rook wRook2({7,7},false);
+    Rook bRook1({0,0},true);
+    Rook bRook2({7,0},true);
+    Bishop wBishop1({2,7},false);
+    Bishop wBishop2({5,7},false);
+    Bishop bBishop1({2,0},true);
+    Bishop bBishop2({5,0},true);
+    piecesVector.push_back(wKnight1);
+    piecesVector.push_back(wKnight2);
+    piecesVector.push_back(bKnight1);
+    piecesVector.push_back(bKnight2);
+    piecesVector.push_back(wRook1);
+    piecesVector.push_back(wRook2);
+    piecesVector.push_back(bRook1);
+    piecesVector.push_back(bRook2);
+    piecesVector.push_back(wBishop1);
+    piecesVector.push_back(wBishop2);
+    piecesVector.push_back(bBishop1);
+    piecesVector.push_back(bBishop2);
+
     for (int i = 0; i < piecesVector.size();i++){
-        sf::Sprite sprite;
-        if (piecesVector[i].getColor()){
-            sprite.setTexture(texturesVector[1]);
-        }else{
-            sprite.setTexture(texturesVector[0]);
+        static sf::Sprite sprite;
+        switch(piecesVector[i].getType()){
+            case 0:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[1]);
+                }else{
+                    sprite.setTexture(texturesVector[0]);
+                }
+                break;
+            case 1:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[3]);
+                }else{
+                    sprite.setTexture(texturesVector[2]);
+                }
+                break;
+            case 2:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[5]);
+                }else{
+                    sprite.setTexture(texturesVector[4]);
+                }
+                break;
+            case 3:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[7]);
+                }else{
+                    sprite.setTexture(texturesVector[6]);
+                }
+                break;
+
         }
+        
         vector<int> pos(2);
         piecesVector[i].getPos(pos);
         sprite.setPosition(pos[0]*64,pos[1]*64);
@@ -105,17 +158,54 @@ void drawPieces(sf::RenderWindow& win, vector<sf::Sprite>& drawPiecesVector){
     }
 }
 
-void initializeTextures(vector<sf::Texture>& textureVector){ // 0,1: p;
+void initializeTextures(vector<sf::Texture>& textureVector){ // 2,3: p; 0,1 N;
     static sf::Texture whitePawnTexture;
     if(!whitePawnTexture.loadFromFile("sprites/pawn.png")){
         throw runtime_error("failed to load texture");
     }
-    whitePawnTexture.loadFromFile("sprietes/pawn.png");
+    whitePawnTexture.loadFromFile("sprites/pawn.png");
     static sf::Texture blackPawnTexture;
     if(!blackPawnTexture.loadFromFile("sprites/blackpawn.png")){
         throw runtime_error("failed to load texture");
     }
-    blackPawnTexture.loadFromFile("sprietes/blackpawn.png");
+    blackPawnTexture.loadFromFile("sprites/blackpawn.png");
+    static sf::Texture whiteKnightTexture;
+    if(!whiteKnightTexture.loadFromFile("sprites/knight.png")){
+        throw runtime_error("failed to load texture");
+    }
+    whiteKnightTexture.loadFromFile("sprites/knight.png");
+    static sf::Texture blackKnightTexture;
+    if(!blackKnightTexture.loadFromFile("sprites/blackknight.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackKnightTexture.loadFromFile("sprites/blackknight.png");
+    static sf::Texture rookTexture;
+    if(!rookTexture.loadFromFile("sprites/rook.png")){
+        throw runtime_error("failed to load texture");
+    }
+    rookTexture.loadFromFile("sprites/rook.png");
+    static sf::Texture blackRookTexture;
+    if(!blackRookTexture.loadFromFile("sprites/blackrook.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackRookTexture.loadFromFile("sprites/blackrook.png");
+    static sf::Texture bishopTexture;
+    if(!bishopTexture.loadFromFile("sprites/bishop.png")){
+        throw runtime_error("failed to load texture");
+    }
+    bishopTexture.loadFromFile("sprites/bishop.png");
+    static sf::Texture blackBishopTexture;
+    if(!blackBishopTexture.loadFromFile("sprites/blackbishop.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackBishopTexture.loadFromFile("sprites/blackbishop.png");
+
     textureVector.push_back(whitePawnTexture);
     textureVector.push_back(blackPawnTexture);
+    textureVector.push_back(whiteKnightTexture);
+    textureVector.push_back(blackKnightTexture);
+    textureVector.push_back(rookTexture);
+    textureVector.push_back(blackRookTexture);
+    textureVector.push_back(bishopTexture);
+    textureVector.push_back(blackBishopTexture);
 }
