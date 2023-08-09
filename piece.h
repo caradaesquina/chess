@@ -44,4 +44,14 @@ class Bishop : public Piece{
         Bishop(vector<int>, bool);
 };
 
+class Queen : public Piece{
+    public:
+        Queen(vector<int>, bool);
+};
+
+class King : public Piece{
+    public:
+        King(vector<int>, bool);
+};
+
 #endif

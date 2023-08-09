@@ -97,6 +97,10 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
     Bishop wBishop2({5,7},false);
     Bishop bBishop1({2,0},true);
     Bishop bBishop2({5,0},true);
+    Queen wQueen({3,7},false);
+    Queen bQueen({3,0},true);
+    King wKing({4,7},false);
+    King bKing({4,0},true);
     piecesVector.push_back(wKnight1);
     piecesVector.push_back(wKnight2);
     piecesVector.push_back(bKnight1);
@@ -109,6 +113,10 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
     piecesVector.push_back(wBishop2);
     piecesVector.push_back(bBishop1);
     piecesVector.push_back(bBishop2);
+    piecesVector.push_back(wQueen);
+    piecesVector.push_back(bQueen);
+    piecesVector.push_back(wKing);
+    piecesVector.push_back(bKing);
 
     for (int i = 0; i < piecesVector.size();i++){
         static sf::Sprite sprite;
@@ -141,7 +149,20 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
                     sprite.setTexture(texturesVector[6]);
                 }
                 break;
-
+            case 4:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[9]);
+                }else{
+                    sprite.setTexture(texturesVector[8]);
+                }
+                break;
+            case 5:
+                if (piecesVector[i].getColor()){
+                    sprite.setTexture(texturesVector[11]);
+                }else{
+                    sprite.setTexture(texturesVector[10]);
+                }
+                break;
         }
         
         vector<int> pos(2);
@@ -199,6 +220,27 @@ void initializeTextures(vector<sf::Texture>& textureVector){ // 2,3: p; 0,1 N;
         throw runtime_error("failed to load texture");
     }
     blackBishopTexture.loadFromFile("sprites/blackbishop.png");
+    static sf::Texture queenTexture;
+    if(!queenTexture.loadFromFile("sprites/queen.png")){
+        throw runtime_error("failed to load texture");
+    }
+    queenTexture.loadFromFile("sprites/queen.png");
+    static sf::Texture blackQueenTexture;
+    if(!blackQueenTexture.loadFromFile("sprites/blackqueen.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackQueenTexture.loadFromFile("sprites/blackqueen.png");
+    static sf::Texture kingTexture;
+    if(!kingTexture.loadFromFile("sprites/king.png")){
+        throw runtime_error("failed to load texture");
+    }
+    kingTexture.loadFromFile("sprites/king.png");
+    static sf::Texture blackKingTexture;
+    if(!blackKingTexture.loadFromFile("sprites/blackking.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackKingTexture.loadFromFile("sprites/blackking.png");
+    
 
     textureVector.push_back(whitePawnTexture);
     textureVector.push_back(blackPawnTexture);
@@ -208,4 +250,8 @@ void initializeTextures(vector<sf::Texture>& textureVector){ // 2,3: p; 0,1 N;
     textureVector.push_back(blackRookTexture);
     textureVector.push_back(bishopTexture);
     textureVector.push_back(blackBishopTexture);
+    textureVector.push_back(queenTexture);
+    textureVector.push_back(blackQueenTexture);
+    textureVector.push_back(kingTexture);
+    textureVector.push_back(blackKingTexture);
 }

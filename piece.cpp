@@ -57,3 +57,17 @@ Bishop::Bishop(vector<int> _pos, bool _color){
     moves = {{}};
     color = _color;
 }
+
+Queen::Queen(vector<int> _pos, bool _color){
+    type = 4;
+    pos = _pos;
+    moves = {{}};
+    color = _color;
+}
+
+King::King(vector<int> _pos, bool _color){
+    type = 5;
+    pos = _pos;
+    moves = {{}};
+    color = _color;
+}
