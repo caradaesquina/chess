@@ -26,8 +26,18 @@ void Piece::getMoves(vector<vector<int>>& vector){
     }
 }
 
+int Piece::getMoveNumber(){
+    return moves.size();
+}
+
 bool Piece::getColor(){
     return color;
+}
+
+void Piece::setPos(vector<int>& _pos){
+    for (int i =0; i<pos.size(); i++){
+        pos[i] = _pos[i];
+    }
 }
 
 Pawn::Pawn(vector<int> _pos, bool _color){

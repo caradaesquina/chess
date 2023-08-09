@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-
 using namespace std;
 
 class Piece{
@@ -19,7 +18,9 @@ class Piece{
         virtual int getType();
         virtual void getPos(vector<int>&);
         virtual void getMoves(vector<vector<int>>&);
+        virtual int getMoveNumber();
         virtual bool getColor();
+        virtual void setPos(vector<int>&);
 
 };
 

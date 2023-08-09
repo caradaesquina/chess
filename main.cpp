@@ -14,10 +14,11 @@ void drawSquares(sf::RenderWindow& , vector<sf::RectangleShape>&);
 
 void initializeTextures(vector<sf::Texture>&);
 
-void initializePieces(vector<Piece>&, vector<sf::Sprite>&, vector<sf::Texture>&);
+void initializePieces(vector<Piece>&, vector<sf::Sprite>&);
+void initializeSprites(vector<Piece>&, vector<sf::Sprite>&, vector<sf::Texture>&);
 void drawPieces(sf::RenderWindow&, vector<sf::Sprite>&);
 
-
+void handleMousePress(sf::RenderWindow&, vector<Piece>&,vector<sf::Sprite>&, vector<sf::CircleShape>&);
 
 using namespace std;
 
@@ -28,17 +29,29 @@ int main()
     vector<Piece> piecesVector;
     vector<sf::Sprite> drawPiecesVector;
     vector<sf::Texture> texturesVector;
+    vector<sf::CircleShape> movesVector;
     initializeSquares(squaresVector, drawSquaresVector);
     initializeTextures(texturesVector);
-    initializePieces(piecesVector, drawPiecesVector, texturesVector);
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "Teste");
+    initializePieces(piecesVector, drawPiecesVector);
+    initializeSprites(piecesVector, drawPiecesVector, texturesVector);
+
+
+    sf::RenderWindow window(sf::VideoMode(512, 512), "Teste");
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed)
-                window.close();
+            switch(event.type){
+                case sf::Event::Closed:
+                    window.close();
+                    break;
+                case sf::Event::MouseButtonPressed:
+                    if(event.mouseButton.button == sf::Mouse::Left){
+                            handleMousePress(window, piecesVector, drawPiecesVector, movesVector);
+                    }
+                    break;
+            }
         }
         window.clear();
         drawSquares(window, drawSquaresVector);
@@ -76,7 +89,7 @@ void drawSquares(sf::RenderWindow& win, vector<sf::RectangleShape>& drawSquareVe
     }
 }
 
-void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiecesVector, vector<sf::Texture>& texturesVector){
+void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiecesVector){
     for (int i = 0; i < 8; i++){
         Pawn pawn({i,6} ,false);
         piecesVector.push_back(pawn);
@@ -118,6 +131,9 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
     piecesVector.push_back(wKing);
     piecesVector.push_back(bKing);
 
+}
+
+void initializeSprites(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiecesVector, vector<sf::Texture>& texturesVector){
     for (int i = 0; i < piecesVector.size();i++){
         static sf::Sprite sprite;
         switch(piecesVector[i].getType()){
@@ -169,9 +185,8 @@ void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiece
         piecesVector[i].getPos(pos);
         sprite.setPosition(pos[0]*64,pos[1]*64);
         drawPiecesVector.push_back(sprite);
-    } 
-}
-
+        } 
+    }   
 
 void drawPieces(sf::RenderWindow& win, vector<sf::Sprite>& drawPiecesVector){
     for (int i =0; i <drawPiecesVector.size(); i++){
@@ -179,7 +194,8 @@ void drawPieces(sf::RenderWindow& win, vector<sf::Sprite>& drawPiecesVector){
     }
 }
 
-void initializeTextures(vector<sf::Texture>& textureVector){ // 2,3: p; 0,1 N;
+void initializeTextures(vector<sf::Texture>& textureVector){ 
+    
     static sf::Texture whitePawnTexture;
     if(!whitePawnTexture.loadFromFile("sprites/pawn.png")){
         throw runtime_error("failed to load texture");
@@ -254,4 +270,19 @@ void initializeTextures(vector<sf::Texture>& textureVector){ // 2,3: p; 0,1 N;
     textureVector.push_back(blackQueenTexture);
     textureVector.push_back(kingTexture);
     textureVector.push_back(blackKingTexture);
+}
+
+void handleMousePress(sf::RenderWindow& window, vector<Piece>& piecesVector,vector<sf::Sprite>& drawPiecesVector,vector<sf::CircleShape>& movesVector){
+    auto mouse_pos = sf::Mouse::getPosition(window); 
+    auto translated_pos = window.mapPixelToCoords(mouse_pos);
+    for (int i =0; i < drawPiecesVector.size()  ;i++){
+        Piece piece = piecesVector[i];
+        vector<int> piecePos(2);
+        piece.getPos(piecePos);
+        sf::Sprite sprite = drawPiecesVector[i];
+        if(sprite.getGlobalBounds().contains(translated_pos)){
+            cout << "Clicked " << piece.getType() << " at: " << piecePos[0] << ", " << piecePos[2] << endl;
+        }
+    }
+    
 }
