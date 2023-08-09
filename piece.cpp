@@ -30,13 +30,17 @@ void Piece::getMoves(vector<vector<int>>& vector){
     }
 }
 
+bool Piece::getColor(){
+    return color;
+}
+
 Pawn::Pawn(vector<int> _pos, bool _color){
     type = "Pawn";
     pos = _pos;
-    if (!color){
-        texture = "sprites/pawn.png";
-    }else{
+    if (color){
         texture = "sprites/blackpawn.png";
+    }else{
+        texture = "sprites/pawn.png";
     }
     moves = {{0,1}, {0,2}};
     color = _color;

@@ -21,6 +21,7 @@ class Piece{
         virtual void getPos(vector<int>&);
         virtual string getTexture();
         virtual void getMoves(vector<vector<int>>&);
+        virtual bool getColor();
 
 };
 

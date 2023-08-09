@@ -11,8 +11,12 @@
 void initializeSquares(vector<Square>&, vector<sf::RectangleShape>&);
 void drawSquares(sf::RenderWindow& , vector<sf::RectangleShape>&);
 
-void initializePieces(vector<Piece>&, vector<sf::Sprite>&);
+void initializeTextures(vector<sf::Texture>&);
+
+void initializePieces(vector<Piece>&, vector<sf::Sprite>&, vector<sf::Texture>&);
 void drawPieces(sf::RenderWindow&, vector<sf::Sprite>&);
+
+
 
 using namespace std;
 
@@ -22,8 +26,10 @@ int main()
     vector<sf::RectangleShape> drawSquaresVector;
     vector<Piece> piecesVector;
     vector<sf::Sprite> drawPiecesVector;
+    vector<sf::Texture> texturesVector;
     initializeSquares(squaresVector, drawSquaresVector);
-    initializePieces(piecesVector, drawPiecesVector);
+    initializeTextures(texturesVector);
+    initializePieces(piecesVector, drawPiecesVector, texturesVector);
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Teste");
     while (window.isOpen())
     {
@@ -69,24 +75,22 @@ void drawSquares(sf::RenderWindow& win, vector<sf::RectangleShape>& drawSquareVe
     }
 }
 
-void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiecesVector){
+void initializePieces(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiecesVector, vector<sf::Texture>& texturesVector){
     for (int i = 0; i < 8; i++){
-        Pawn pawn({i,6} ,true);
+        Pawn pawn({i,6} ,false);
         piecesVector.push_back(pawn);
     }
     for (int i = 0; i < 8; i++){
-        Pawn pawn({i,1} ,false);
+        Pawn pawn({i,1} ,true);
         piecesVector.push_back(pawn);
     }
     for (int i = 0; i < piecesVector.size();i++){
-        sf::Texture texture;
-        if(!texture.loadFromFile(piecesVector[i].getTexture())){
-            throw runtime_error("failed to load texture");
-        }
-        cout << piecesVector[i].getTexture() << endl;
-        texture.loadFromFile(piecesVector[i].getTexture());
         sf::Sprite sprite;
-        sprite.setTexture(texture);
+        if (piecesVector[i].getColor()){
+            sprite.setTexture(texturesVector[1]);
+        }else{
+            sprite.setTexture(texturesVector[0]);
+        }
         vector<int> pos(2);
         piecesVector[i].getPos(pos);
         sprite.setPosition(pos[0]*64,pos[1]*64);
@@ -99,4 +103,19 @@ void drawPieces(sf::RenderWindow& win, vector<sf::Sprite>& drawPiecesVector){
     for (int i =0; i <drawPiecesVector.size(); i++){
         win.draw(drawPiecesVector[i]);
     }
+}
+
+void initializeTextures(vector<sf::Texture>& textureVector){ // 0,1: p;
+    static sf::Texture whitePawnTexture;
+    if(!whitePawnTexture.loadFromFile("sprites/pawn.png")){
+        throw runtime_error("failed to load texture");
+    }
+    whitePawnTexture.loadFromFile("sprietes/pawn.png");
+    static sf::Texture blackPawnTexture;
+    if(!blackPawnTexture.loadFromFile("sprites/blackpawn.png")){
+        throw runtime_error("failed to load texture");
+    }
+    blackPawnTexture.loadFromFile("sprietes/blackpawn.png");
+    textureVector.push_back(whitePawnTexture);
+    textureVector.push_back(blackPawnTexture);
 }
