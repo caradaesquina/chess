@@ -17,7 +17,7 @@ class Piece{
         ~Piece();
         virtual int getType();
         virtual void getPos(vector<int>&);
-        virtual void getMoves(vector<vector<int>>&);
+        virtual vector<vector<int>> getMoves();
         virtual int getMoveNumber();
         virtual bool getColor();
         virtual void setPos(vector<int>&);

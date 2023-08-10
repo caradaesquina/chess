@@ -8,6 +8,7 @@
 
 #define BROWN sf::Color(196,164,132)
 #define WHITE sf::Color(200,200,200)
+#define GREEN sf::Color(34,139,34)
 
 void initializeSquares(vector<Square>&, vector<sf::RectangleShape>&);
 void drawSquares(sf::RenderWindow& , vector<sf::RectangleShape>&);
@@ -17,6 +18,9 @@ void initializeTextures(vector<sf::Texture>&);
 void initializePieces(vector<Piece>&, vector<sf::Sprite>&);
 void initializeSprites(vector<Piece>&, vector<sf::Sprite>&, vector<sf::Texture>&);
 void drawPieces(sf::RenderWindow&, vector<sf::Sprite>&);
+
+void clearMoves(vector<sf::CircleShape>&);
+void drawMoves(sf::RenderWindow&, vector<sf::CircleShape>&);
 
 void handleMousePress(sf::RenderWindow&, vector<Piece>&,vector<sf::Sprite>&, vector<sf::CircleShape>&);
 
@@ -49,6 +53,7 @@ int main()
                 case sf::Event::MouseButtonPressed:
                     if(event.mouseButton.button == sf::Mouse::Left){
                             handleMousePress(window, piecesVector, drawPiecesVector, movesVector);
+
                     }
                     break;
             }
@@ -56,6 +61,7 @@ int main()
         window.clear();
         drawSquares(window, drawSquaresVector);
         drawPieces(window, drawPiecesVector);
+        drawMoves(window, movesVector);
         window.display();
     }
     return 0;
@@ -272,6 +278,16 @@ void initializeTextures(vector<sf::Texture>& textureVector){
     textureVector.push_back(blackKingTexture);
 }
 
+void drawMoves(sf::RenderWindow& win, vector<sf::CircleShape>& movesVector){
+    for(int i = 0; i< movesVector.size(); i++){
+        win.draw(movesVector[i]);
+    }
+}
+
+void clearMoves(vector<sf::CircleShape>& movesVector){
+    movesVector.clear();
+}
+
 void handleMousePress(sf::RenderWindow& window, vector<Piece>& piecesVector,vector<sf::Sprite>& drawPiecesVector,vector<sf::CircleShape>& movesVector){
     auto mouse_pos = sf::Mouse::getPosition(window); 
     auto translated_pos = window.mapPixelToCoords(mouse_pos);
@@ -282,6 +298,23 @@ void handleMousePress(sf::RenderWindow& window, vector<Piece>& piecesVector,vect
         sf::Sprite sprite = drawPiecesVector[i];
         if(sprite.getGlobalBounds().contains(translated_pos)){
             cout << "Clicked " << piece.getType() << " at: " << piecePos[0] << ", " << piecePos[2] << endl;
+            vector<vector<int>> avaiableMoves = piece.getMoves();
+            clearMoves(movesVector);
+            for (int i = 0; i<avaiableMoves.size(); i++){
+                sf::CircleShape circle(10);
+                cout << "created circle!" << endl;
+                circle.setFillColor(GREEN);
+                int circle_x_pos, circle_y_pos;
+                if(piece.getColor()){
+                    circle_x_pos = (piecePos[0] + avaiableMoves[i][0])*64 + 22;
+                    circle_y_pos = (piecePos[1]  + avaiableMoves[i][1])*64 + 22;
+                }else{
+                    circle_x_pos = (piecePos[0] - avaiableMoves[i][0])*64 + 22;
+                    circle_y_pos = (piecePos[1]  - avaiableMoves[i][1])*64 + 22;
+                }
+                circle.setPosition(circle_x_pos, circle_y_pos);
+                movesVector.push_back(circle);
+            }
         }
     }
     

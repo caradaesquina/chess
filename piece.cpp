@@ -18,12 +18,8 @@ void Piece::getPos(vector<int>& vector){
     }
 }
 
-void Piece::getMoves(vector<vector<int>>& vector){
-    for (int i = 0; i < moves.size(); i++){
-        for (int j = 0; j < moves[i].size(); j++){
-            vector[i][j] = moves [i][j];
-        }
-    }
+vector<vector<int>> Piece::getMoves(){
+    return moves;
 }
 
 int Piece::getMoveNumber(){
