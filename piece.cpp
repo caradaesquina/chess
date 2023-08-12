@@ -12,18 +12,12 @@ int Piece::getType(){
     return type;
 }
 
-void Piece::getPos(vector<int>& vector){
-    for (int i =0; i < pos.size(); i++){
-        vector[i] = pos[i];
-    }
+vector<int> Piece::getPos(){
+    return pos;
 }
 
 vector<vector<int>> Piece::getMoves(){
     return moves;
-}
-
-int Piece::getMoveNumber(){
-    return moves.size();
 }
 
 bool Piece::getColor(){
@@ -36,17 +30,31 @@ void Piece::setPos(vector<int>& _pos){
     }
 }
 
+void Piece::setPos(int x, int y){
+    pos[0] = x;
+    pos[1] = y;
+}
+
 Pawn::Pawn(vector<int> _pos, bool _color){
     type = 0;
     pos = _pos;
+    initialPos = _pos;
     moves = {{0,1}, {0,2}};
     color = _color;
 };
 
+vector<vector<int>> Pawn::getMoves(){
+    if(pos == initialPos){
+        return moves;
+    }else{
+        return {{0,1}};
+    }
+}
+
 Knight::Knight(vector<int> _pos, bool _color){
     type = 1;
     pos = _pos;
-    moves = {{}};
+    moves = {{1,2},{-1,2}, {1,-2}, {-1,-2}, {2,1},{-2,1},{2,-1},{-2,-1}};
     color = _color;
 }
 

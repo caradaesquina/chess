@@ -24,6 +24,9 @@ void drawMoves(sf::RenderWindow&, vector<sf::CircleShape>&);
 
 void handleMousePress(sf::RenderWindow&, vector<Piece>&,vector<sf::Sprite>&, vector<sf::CircleShape>&);
 
+void drawPieceMoves(Piece, sf::Sprite, vector<sf::CircleShape>&);
+void movePiece(Piece*, sf::Sprite&, sf::CircleShape&, vector<sf::CircleShape>&);
+
 using namespace std;
 
 int main()
@@ -187,8 +190,7 @@ void initializeSprites(vector<Piece>& piecesVector, vector<sf::Sprite>& drawPiec
                 break;
         }
         
-        vector<int> pos(2);
-        piecesVector[i].getPos(pos);
+        vector<int> pos = piecesVector[i].getPos();
         sprite.setPosition(pos[0]*64,pos[1]*64);
         drawPiecesVector.push_back(sprite);
         } 
@@ -291,31 +293,51 @@ void clearMoves(vector<sf::CircleShape>& movesVector){
 void handleMousePress(sf::RenderWindow& window, vector<Piece>& piecesVector,vector<sf::Sprite>& drawPiecesVector,vector<sf::CircleShape>& movesVector){
     auto mouse_pos = sf::Mouse::getPosition(window); 
     auto translated_pos = window.mapPixelToCoords(mouse_pos);
+    static int pieceNum;
     for (int i =0; i < drawPiecesVector.size()  ;i++){
         Piece piece = piecesVector[i];
-        vector<int> piecePos(2);
-        piece.getPos(piecePos);
         sf::Sprite sprite = drawPiecesVector[i];
         if(sprite.getGlobalBounds().contains(translated_pos)){
-            cout << "Clicked " << piece.getType() << " at: " << piecePos[0] << ", " << piecePos[2] << endl;
-            vector<vector<int>> avaiableMoves = piece.getMoves();
-            clearMoves(movesVector);
-            for (int i = 0; i<avaiableMoves.size(); i++){
-                sf::CircleShape circle(10);
-                cout << "created circle!" << endl;
-                circle.setFillColor(GREEN);
-                int circle_x_pos, circle_y_pos;
-                if(piece.getColor()){
-                    circle_x_pos = (piecePos[0] + avaiableMoves[i][0])*64 + 22;
-                    circle_y_pos = (piecePos[1]  + avaiableMoves[i][1])*64 + 22;
-                }else{
-                    circle_x_pos = (piecePos[0] - avaiableMoves[i][0])*64 + 22;
-                    circle_y_pos = (piecePos[1]  - avaiableMoves[i][1])*64 + 22;
-                }
-                circle.setPosition(circle_x_pos, circle_y_pos);
-                movesVector.push_back(circle);
-            }
+            drawPieceMoves(piece,sprite, movesVector);
+            pieceNum = i;
+        }
+    }
+    for (int i = 0; i < movesVector.size(); i++){
+        if(movesVector[i].getGlobalBounds().contains(translated_pos)){
+            Piece* piecePtr;
+            piecePtr = &piecesVector[pieceNum];
+            movePiece(piecePtr, drawPiecesVector[pieceNum], movesVector[i], movesVector);
         }
     }
     
+}
+
+void drawPieceMoves(Piece piece, sf::Sprite sprite, vector<sf::CircleShape>& movesVector){
+    vector<int> piecePos = piece.getPos();
+    cout << "Clicked " << piece.getType() << " at: " << piecePos[0] << ", " << piecePos[1] << endl;
+    vector<vector<int>> avaiableMoves = piece.getMoves();
+    clearMoves(movesVector);
+    for (int i = 0; i<piece.getMoves().size(); i++){
+        sf::CircleShape circle(10);
+        cout << "created circle!" << endl;
+        circle.setFillColor(GREEN);
+        int circle_x_pos, circle_y_pos;
+        if(piece.getColor()){
+            circle_x_pos = (piecePos[0] + avaiableMoves[i][0])*64 + 22;
+            circle_y_pos = (piecePos[1]  + avaiableMoves[i][1])*64 + 22;
+        }else{
+            circle_x_pos = (piecePos[0] - avaiableMoves[i][0])*64 + 22;
+            circle_y_pos = (piecePos[1]  - avaiableMoves[i][1])*64 + 22;
+        }
+        circle.setPosition(circle_x_pos, circle_y_pos);
+        movesVector.push_back(circle);
+    } 
+}
+
+void movePiece(Piece* piece, sf::Sprite& sprite, sf::CircleShape& move, vector<sf::CircleShape>& movesVector){
+    auto piece_x_pos = move.getPosition().x - 22;
+    auto piece_y_pos = move.getPosition().y - 22;
+    piece->setPos(move.getPosition().x/64, move.getPosition().y/64);
+    sprite.setPosition(piece_x_pos, piece_y_pos);
+    clearMoves(movesVector);
 }

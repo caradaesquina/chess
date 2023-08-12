@@ -11,23 +11,27 @@ class Piece{
         vector<int> pos;
         vector<vector<int>> moves;
         bool color;
+        int timesMoved;
         
     public:
         Piece();
         ~Piece();
         virtual int getType();
-        virtual void getPos(vector<int>&);
+        virtual vector<int> getPos();
         virtual vector<vector<int>> getMoves();
-        virtual int getMoveNumber();
         virtual bool getColor();
         virtual void setPos(vector<int>&);
+        virtual void setPos(int,int);
+
 
 };
 
 class Pawn : public Piece{
+    private:
+        vector<int> initialPos;
     public:
         Pawn(vector<int>,bool);
-
+        vector<vector<int>> getMoves();
 };
 
 class Knight : public Piece{
