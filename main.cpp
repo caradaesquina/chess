@@ -5,9 +5,8 @@
 #include <iostream>
 
 int main(){
-    Square square(std::array<int,2> {0,1}, true);
-    Pawn pawn(false, square);
-    std::cout << "Piece type: " << pawn.getType() << std::endl;
-    std::cout << "Position: " << pawn.getSquare().getPos()[0] << ", " << pawn.getPos()[1] << std::endl;
+    Board board;
+    std::cout << "Piece type: " << board.getPiece(15)->getType() << std::endl;
+    std::cout << "Piece at: " << board.getPiece(15)->getPos()[0] << ", " << board.getPiece(15)->getPos()[1] << std::endl;
     return 0;
 }

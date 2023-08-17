@@ -1,5 +1,4 @@
 #include "piece.h"
-#include "square.h"
 #include <array>
 
 Piece::Piece(){
@@ -14,23 +13,24 @@ bool Piece::getColor(){
     return color;
 }
 
-Square Piece::getSquare(){
+Square* Piece::getSquare(){
     return square;
 }
 
-void Piece::setSquare(Square _square){
+void Piece::setSquare(Square* _square){
     square = _square;
 }
 
 std::array<int,2> Piece::getPos(){
-        return square.getPos();
+        return square->getPos();
 }
 
-Pawn::Pawn(bool _color, Square _square){
+Pawn::Pawn(bool _color, Square* _square){
     type = 0;
     color = _color;
     square = _square;
 }
+
 
 void Pawn::getMoves(){
 

@@ -8,11 +8,13 @@
 
 class Board{
     private:
-        std::array<SQUARE::Square, 64> squares;
-        std::vector<PIECE::Piece> pieces;
+        std::array<Square*, 64> squares;
+        std::vector<Piece*> pieces;
     public:
         Board();
         ~Board();
+        int getPiecesNumber(int);
+        Piece* getPiece(int);
 };
 
 #endif
