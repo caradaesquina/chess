@@ -1,62 +1,32 @@
 #ifndef PIECE
 #define PIECE
 
-#include <vector>
-#include <string>
-using namespace std;
+#include "square.h"
+#include <array>
 
 class Piece{
     protected:
+        /* 0 - pawn, 1 - knight, 2 - rook, 3 - bishop,
+        4- rook, 5 - queen, 6 - king                */
         int type;
-        vector<int> pos;
-        vector<vector<int>> moves;
         bool color;
-        int timesMoved;
-        
+        Square square;
     public:
         Piece();
         ~Piece();
-        virtual int getType();
-        virtual vector<int> getPos();
-        virtual vector<vector<int>> getMoves();
-        virtual bool getColor();
-        virtual void setPos(vector<int>&);
-        virtual void setPos(int,int);
-
-
+        int getType();
+        bool getColor();
+        Square getSquare();
+        void setSquare(Square);
+        std::array<int,2> getPos();
+        virtual void getMoves() = 0;
 };
 
 class Pawn : public Piece{
-    private:
-        vector<int> initialPos;
     public:
-        Pawn(vector<int>,bool);
-        vector<vector<int>> getMoves();
+        Pawn(bool, Square);
+        void getMoves();
 };
 
-class Knight : public Piece{
-    public:
-        Knight(vector<int>, bool);
-};
-
-class Rook : public Piece{
-    public:
-        Rook(vector<int>, bool);
-};
-
-class Bishop : public Piece{
-    public:
-        Bishop(vector<int>, bool);
-};
-
-class Queen : public Piece{
-    public:
-        Queen(vector<int>, bool);
-};
-
-class King : public Piece{
-    public:
-        King(vector<int>, bool);
-};
 
 #endif

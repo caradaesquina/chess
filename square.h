@@ -1,21 +1,17 @@
 #ifndef SQUARE
 #define SQUARE
 
-#include <iostream>
-#include <string>
-using namespace std;
+#include <array>
 
 class Square{
     private:
-        int collumn;
-        int row;
+        std::array<int,2> pos;
         bool color;
     public:
-        Square(int _collumn, int _row, bool _color);
+        Square();
+        Square(std::array<int,2>, bool);
         ~Square();
-        int getCollumn();
-        int getRow();
-        bool getColor(); 
+        std::array<int,2> getPos();
+        bool getColor();
 };
-
 #endif
