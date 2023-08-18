@@ -2,7 +2,10 @@
 #define PIECE
 
 #include "square.h"
+#include "piece_move.h"
+
 #include <array>
+#include <vector>
 
 class Piece{
     protected:
@@ -12,6 +15,7 @@ class Piece{
         // false - white, true - black
         bool color;
         Square* square;
+        std::vector<PieceMove*> allPieceMoves;
     public:
         Piece();
         ~Piece();
@@ -20,14 +24,13 @@ class Piece{
         Square* getSquare();
         void setSquare(Square*);
         std::array<int,2> getPos();
-        virtual void getMoves() = 0;
+        virtual std::vector<PieceMove*>  getMoves()=0;
 };
 
 class Pawn : public Piece{
     public:
         Pawn(bool, Square*);
-        void getMoves();
+        std::vector<PieceMove*> getMoves();
 };
-
 
 #endif
