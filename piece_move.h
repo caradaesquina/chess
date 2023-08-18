@@ -4,8 +4,11 @@
 #include <array>
 
 enum MoveType{
-    //ALL PIECES, EXCEPT PAWNS
-    movementOrCapture,
+    /* Despite moving the piece to the same position, a move
+    can either be a simple movement or capture an enemy piece
+    except pawns, where the movement and captures are disjointed*/
+    movement,
+    capture, 
 
     // KING MOVEMENTS
     littleCastle, 
@@ -13,8 +16,6 @@ enum MoveType{
 
     // PAWN MOVEMENTS
     firstMovement,
-    movement,
-    capture, 
     promotion,
     enPassant 
 };
@@ -30,6 +31,7 @@ class PieceMove{
         MoveType getMoveType();
         std::array<int,2> getOffset();
         bool isIgnorePieces();
+        bool operator == (const PieceMove& move);
 };
 
 

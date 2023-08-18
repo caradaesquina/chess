@@ -21,3 +21,12 @@ std::array<int,2> PieceMove::getOffset(){
 bool PieceMove::isIgnorePieces(){
     return ignorePieces;
 }
+
+bool PieceMove::operator==(const PieceMove& move){
+    if((moveType == move.moveType) && (offset == move.offset)
+    && (ignorePieces == move.ignorePieces)){
+        return true;
+    }else{
+        return false;
+    }
+}

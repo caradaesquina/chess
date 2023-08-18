@@ -15,22 +15,32 @@ class Piece{
         // false - white, true - black
         bool color;
         Square* square;
+        Square* originalSquare;
         std::vector<PieceMove*> allPieceMoves;
+        int code; //used for acessing pieces in board;
+        bool hasMoved;
     public:
         Piece();
         ~Piece();
         int getType();
         bool getColor();
         Square* getSquare();
+        Square* getOriginalSquare();
         void setSquare(Square*);
         std::array<int,2> getPos();
+        int getCode();
+        void setHasMoved(bool val);
+        bool isHasMoved();
         virtual std::vector<PieceMove*>  getMoves()=0;
+        
+
 };
 
 class Pawn : public Piece{
     public:
-        Pawn(bool, Square*);
+        Pawn(bool, Square*,int _code);
         std::vector<PieceMove*> getMoves();
+
 };
 
 #endif

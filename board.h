@@ -15,6 +15,10 @@ class Board{
         ~Board();
         int getPiecesNumber(int);
         Piece* getPiece(int);
+        std::vector<Piece*> getPieces();
+        Square* getSquare(std::array<int,2> squarePos);
+        std::array<Square*, 64> getSquares();
+        Board& operator=(const Board&board);
 };
 
 #endif
