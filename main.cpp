@@ -4,13 +4,11 @@
 int main(){
     Board* board = new Board;
     GameHandler gameHandler(board);
-    int i = 0;
     Piece* piece = board->getPiece(0);
-    Piece* piece1 = board->getPiece(1);
+    Piece* piece1 = board->getPiece(16);
     std::cout << "Piece type: " << piece->getType() << std::endl;
-    std::cout << "Piece at: " << piece->getPos()[0] << ", " << piece->getPos()[1] << std::endl;
-    std::cout << "Piece1 at: " << piece1->getPos()[0] << ", " << piece1->getPos()[1] << std::endl;
-    std::cout << "Avaiable Moves: ";
+    std::cout << "Piece at: " << piece->getPos()[0] << ", " << piece->getPos()[1]  << std::endl;
+    std::cout << "Avaiable Moves: " << std::endl;
     for (auto& move : gameHandler.getAvaiableMoves(piece)){
         std::cout  << "("<<move->getOffset()[0] << ", " << 
         move->getOffset()[1] << ") ";

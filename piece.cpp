@@ -54,7 +54,7 @@ Pawn::Pawn(bool _color, Square* _square, int _code){
     allPieceMoves = {
         new PieceMove(movement, {1,0}), // regular forward pawn movement
         new PieceMove(firstMovement, {2,0}), //move from pawn first position
-        new PieceMove(capture, {1,1}), new PieceMove(capture, {1,-1}), //pawn captures
+        new PieceMove(capture, {1,1}), new PieceMove(capture, {-1,1}), //pawn captures
         new PieceMove(promotion, {0,0}), //promotion, doesnt alter pawn's current location
         new PieceMove(enPassant, {1,1}), new PieceMove(enPassant, {1,-1}) //special pawn move: https://en.wikipedia.org/wiki/En_passant
     };
