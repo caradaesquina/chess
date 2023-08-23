@@ -23,7 +23,7 @@ Board::Board(){
         std::cout << "Constructing Pawn: " << pawn->getColor() <<  ", " << "code: " << pawn->getCode() << std::endl;
         pieces.push_back(pawn);
     }
-    Pawn* tstPawn = new Pawn(false, getSquare({4,0}), 99);
+    Pawn* tstPawn = new Pawn(true, getSquare({2,1}), 99);
     pieces.push_back(tstPawn);
 }
 
@@ -38,15 +38,27 @@ Board::~Board(){
 }
 
 //TODO: refactor method to use piece code
-Piece* Board::getPiece(int pos){
-    try{
-        if(pos > pieces.size()-1){
-            throw std::out_of_range("Piece out of index");
-        }
-    }catch(const std::out_of_range& e){
-        std::cerr << e.what() << std::endl;
+Piece* Board::getPiece(int code){
+  try{
+    for(auto& piece : pieces){
+      if(piece->getCode() == code){ 
+        return piece;
+      }
+    } 
+    throw std::runtime_error("Piece code not present.");
+  }catch (std::exception e){
+    std::cerr << e.what() << std::endl;
+  }
+}
+
+void Board::removePiece(Piece* pieceToDelete){
+  int i = 0;
+  for(auto& piece : pieces){
+    if(piece->getCode() == pieceToDelete->getCode()){
+      pieces.erase(pieces.begin() + i);
     }
-    return pieces[pos];
+    i++;
+  } 
 }
 
 std::vector<Piece*> Board::getPieces(){

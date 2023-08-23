@@ -15,6 +15,7 @@ class Board{
         ~Board();
         int getPiecesNumber(int);
         Piece* getPiece(int);
+        void removePiece(Piece* pieceToDelete);
         std::vector<Piece*> getPieces();
         Square* getSquare(std::array<int,2> squarePos);
         std::array<Square*, 64> getSquares();

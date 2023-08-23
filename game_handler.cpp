@@ -26,7 +26,7 @@ std::vector<PieceMove*> GameHandler::getPawnMoves(Piece* piece){
             if(piece->getSquare() != piece->getOriginalSquare()){
                 break;
             }else{
-                if((checkPieceSuperposition(piece,move)) || (checkPieceInterception(piece,move))){
+                if((checkPieceSuperposition(piece,move,false)) || (checkPieceInterception(piece,move))){
                     break;
                 }
                 avaiablePawnMoves.push_back(move);
@@ -36,13 +36,13 @@ std::vector<PieceMove*> GameHandler::getPawnMoves(Piece* piece){
             /* Pawn's movements are special because they
             are disjointed from their captures, a pawn cannot move
             to a space where other piece resides*/
-            if((checkPieceSuperposition(piece,move)) || (checkPieceInterception(piece,move))){
+            if((checkPieceSuperposition(piece,move,false)) || (checkPieceInterception(piece,move))){
                     break;
                 }
             avaiablePawnMoves.push_back(move);
         }
         case capture:{
-            if(checkPieceSuperposition(piece,move)){
+            if(checkPieceSuperposition(piece,move,true)){
                 avaiablePawnMoves.push_back(move);
             }else{
                 break;
@@ -76,20 +76,29 @@ bool GameHandler::movePiece(Piece* piece, PieceMove* move){
             int y_pos = piece->getSquare()->getPos()[1] + move->getOffset()[1];
             piece->setSquare(board->getSquare({x_pos, y_pos}));
             piece->setHasMoved(true);
+            if(move->getMoveType() == capture){
+              capturePiece(piece);
+            }
             return true;
         }
     }
     return false;
 }
 
-bool GameHandler::checkPieceSuperposition(Piece* piece, PieceMove* move){
+bool GameHandler::checkPieceSuperposition(Piece* piece, PieceMove* move, bool checkColor){
     int x_pos = piece->getSquare()->getPos()[0] + move->getOffset()[0];
     int y_pos = piece->getSquare()->getPos()[1] + move->getOffset()[1];
     Square* sq = board->getSquare({x_pos, y_pos});
     for (auto& otherPiece : board->getPieces()){
         if(otherPiece->getCode() != piece->getCode()){
             if(otherPiece->getSquare() == sq){
+              if (checkColor){
+                  if(otherPiece->getColor() != piece->getColor()){
+                      return true;
+                  }
+              }else{
                 return true;
+              }
             }
         }
     }
@@ -119,4 +128,15 @@ bool GameHandler::checkPieceInterception(Piece* piece, PieceMove* move){
         }
     }
     return false;
+}
+
+void GameHandler::capturePiece(Piece* piece){
+  for(auto& otherPiece : board->getPieces()){
+    if(otherPiece->getCode() != piece->getCode()){
+      if(otherPiece->getPos() == piece->getPos()){
+        board->removePiece(otherPiece);
+        return;
+      }
+    }
+  }
 }
