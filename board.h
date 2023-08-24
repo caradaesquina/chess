@@ -19,6 +19,7 @@ class Board{
         std::vector<Piece*> getPieces();
         Square* getSquare(std::array<int,2> squarePos);
         std::array<Square*, 64> getSquares();
+        void drawASCIIBoard();
         Board& operator=(const Board&board);
 };
 

@@ -1,9 +1,19 @@
 #include "game_handler.h"
 #include <iostream>
 
+void debbugingLog();
+
+Board* board = new Board;
+GameHandler gameHandler(board); 
+
 int main(){
-    Board* board = new Board;
-    GameHandler gameHandler(board);
+  board->drawASCIIBoard();
+  debbugingLog();
+  board->drawASCIIBoard();
+  return 0;
+}
+
+void debbugingLog(){
     Piece* piece = board->getPiece(0);
     Piece* piece1 = board->getPiece(99);
     std::cout << "Piece type: " << piece->getType() << std::endl;
@@ -17,7 +27,5 @@ int main(){
     std::cout << std::endl;
     gameHandler.movePiece(piece, piece->getMoves()[2]);
     std::cout << "Moved Piece! Piece at: " << piece->getPos()[0] << ", " << piece->getPos()[1] << std::endl;
-    Piece* piece2 = board->getPiece(99);
     std::cout << "Goddamn!" << std::endl;
-    return 0;
 }

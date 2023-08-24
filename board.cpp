@@ -23,7 +23,7 @@ Board::Board(){
         std::cout << "Constructing Pawn: " << pawn->getColor() <<  ", " << "code: " << pawn->getCode() << std::endl;
         pieces.push_back(pawn);
     }
-    Pawn* tstPawn = new Pawn(true, getSquare({2,1}), 99);
+    Pawn* tstPawn = new Pawn(false, getSquare({2,1}), 99);
     pieces.push_back(tstPawn);
 }
 
@@ -37,7 +37,6 @@ Board::~Board(){
     }
 }
 
-//TODO: refactor method to use piece code
 Piece* Board::getPiece(int code){
   try{
     for(auto& piece : pieces){
@@ -49,6 +48,7 @@ Piece* Board::getPiece(int code){
   }catch (std::exception e){
     std::cerr << e.what() << std::endl;
   }
+  return nullptr;
 }
 
 void Board::removePiece(Piece* pieceToDelete){
@@ -76,6 +76,33 @@ Square* Board::getSquare(std::array<int,2> squarePos){
 
 std::array<Square*, 64> Board::getSquares(){
     return squares;
+}
+
+void Board::drawASCIIBoard(){
+  for(int i = 0; i < 8; i++){
+    int letra = 97 + i;
+    std::cout << "   "<< (char) letra<< "   "; 
+  }
+  std::cout << std::endl;
+  for(int i = 0; i < 8; i++){
+    for (int j = 0; j<8; j++){
+      std::array<int,2> pos = {i,j};
+      bool match = false;
+      std::cout << "   ";
+      for(auto& piece : pieces){
+        if(piece->getPos() == pos){
+          std::cout << piece->getType();
+          std::cout << "   ";
+          match = true;
+          break;
+        }
+      }
+      if(!match){
+        std::cout << "    ";
+      }
+    }
+    std::cout << std::endl;
+  }
 }
 
 Board& Board::operator=(const Board& board){
