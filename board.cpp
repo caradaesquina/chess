@@ -23,8 +23,8 @@ Board::Board(){
         std::cout << "Constructing Pawn: " << pawn->getColor() <<  ", " << "code: " << pawn->getCode() << std::endl;
         pieces.push_back(pawn);
     }
-    Pawn* tstPawn = new Pawn(false, getSquare({2,1}), 99);
-    pieces.push_back(tstPawn);
+ //   Pawn* tstPawn = new Pawn(false, getSquare({2,1}), 99);
+   // pieces.push_back(tstPawn);
 }
 
 
@@ -47,6 +47,15 @@ Piece* Board::getPiece(int code){
     throw std::runtime_error("Piece code not present.");
   }catch (std::exception e){
     std::cerr << e.what() << std::endl;
+  }
+  return nullptr;
+}
+
+Piece* Board::getPiece(Square* square){
+  for (auto& piece : pieces){
+    if(piece->getSquare() == square){
+      return piece;
+    }
   }
   return nullptr;
 }
@@ -91,7 +100,11 @@ void Board::drawASCIIBoard(){
       std::cout << "   ";
       for(auto& piece : pieces){
         if(piece->getPos() == pos){
-          std::cout << piece->getType();
+          switch(piece->getType()){
+            case 0:
+              std::cout << "p";
+              break;
+          }
           std::cout << "   ";
           match = true;
           break;

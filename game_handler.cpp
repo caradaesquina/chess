@@ -1,6 +1,5 @@
-#include "game_handler.h"
-
-#include <vector>
+#include "game_handler.h" 
+#include <vector> 
 #include <iostream>
 
 GameHandler::GameHandler(Board* _board){
