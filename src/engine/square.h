@@ -16,7 +16,7 @@ class Square{
         int getColor() {return color;}
         std::array<int,2> getGlobalPos() {return globalPos;}
         bool operator==(const Square* sq) {
-            if (pos == sq->pos) 
+            if (globalPos == sq->globalPos) 
                 return true; 
             else 
                 return false;}

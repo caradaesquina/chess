@@ -28,7 +28,7 @@ class Board{
         void generateSquares(); 
         void generatePieces(); // starts all pieces in standard position
         Board();
-        static Board* boardInstance;
+        inline static Board* boardInstance;
     public:
         static Board* getInstance();
         ~Board();
@@ -36,7 +36,7 @@ class Board{
         std::vector<Piece*> getPieces();
         Piece* getPiece(int); //get a specific piece
         Piece* getPiece(Square*); //get the piece at a specific square (no piece = NULL)
-        Square* getSquare(std::array<int, 2>) //returns the square at a specific position (global position)
+        Square* getSquare(std::array<int, 2>); //returns the square at a specific position (global position)
 
 
         //as Board is a singleton, it shouldnt be possible to be copied

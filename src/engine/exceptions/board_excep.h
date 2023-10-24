@@ -6,10 +6,14 @@
 #include <string>
 
 class BoardException : public std::exception {
-    private:
+    protected:
         std::string message;
     public:
-        OutOfRangeSquare(std::string msg) : message(msg) {}
-        std::string what() {return message};
+        BoardException(const std::string msg) {message = msg;}
+        std::string what() {return message;}
 };
-class OutOfRangeSquare : public BoardException{};
+class OutOfRangeSquare : public BoardException{
+    public:
+        OutOfRangeSquare(const std::string msg) : BoardException(msg) {}
+        
+};

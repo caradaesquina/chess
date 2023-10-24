@@ -1,4 +1,6 @@
 //testing the piece class
+//Lucas Moura, 2023
+
 #include "../src/engine/piece.h"
 #include <iostream>
 

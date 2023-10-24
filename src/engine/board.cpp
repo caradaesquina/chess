@@ -1,5 +1,7 @@
 #include "board.h"
-#include "board_excep.h"
+#include "exceptions/board_excep.h"
+
+//Board* boardInstance = nullptr;
 
 Board::Board(){
     generateSquares();
@@ -12,9 +14,9 @@ void Board::generateSquares(){
         for(int j = 1; j <= 8; j++){
             Square* sq = new Square(color, std::array<int,2> {i,j});
             boardSquares.push_back(sq);
-            !color;
+            color = !color;
         }
-        !color;
+        color = !color;
     }
 }
 
@@ -56,9 +58,9 @@ Piece* Board::getPiece(int code){
 }
 
 Piece* Board::getPiece(Square* piece_sq){
-    std::array sqPos = piece_sq->getPos();
+    std::array sqPos = piece_sq->getGlobalPos();
     try{
-        if((sqPos[0] < 1) || (sqPos[0] > 8) (sqPos[1] < 1) || (sqPos[1] > 8)){
+        if((sqPos[0] < 1) || (sqPos[0] > 8) || (sqPos[1] < 1) || (sqPos[1] > 8)){
             throw OutOfRangeSquare("Couldnt get piece - index out of range!");
         }
         for (auto& p: boardPieces){
@@ -68,13 +70,13 @@ Piece* Board::getPiece(Square* piece_sq){
         }
         return nullptr;
     }catch (BoardException& board_excep){
-        cerr << "Caught BoardException:" << board_excep.what() << endl;
+        std::cerr << "Caught BoardException:" << board_excep.what() << std::endl;
     }
 }
 
 Square* Board::getSquare(std::array<int,2> sqPos){
     try{
-        if((sqPos[0] < 1) || (sqPos[0] > 8) (sqPos[1] < 1) || (sqPos[1] > 8)){
+        if((sqPos[0] < 1) || (sqPos[0] > 8) || ( sqPos[1] < 1) || (sqPos[1] > 8)){
             throw OutOfRangeSquare("Couldnt get square - index out of range!");
         }
         for(auto& sq : boardSquares){
@@ -83,6 +85,6 @@ Square* Board::getSquare(std::array<int,2> sqPos){
             }
         }
     }catch(BoardException& board_excep){
-        cerr << "Caught BoardException: " << board_excep.what() << endl;
+        std::cerr << "Caught BoardException: " << board_excep.what() << std::endl;
     }
 }
